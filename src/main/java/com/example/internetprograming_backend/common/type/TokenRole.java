@@ -17,7 +17,7 @@ public enum TokenRole {
     private final String tokenRole;
     private final String tokenRoleName;
 
-    public List<TokenRole> getIncludeRole(TokenRole tokenRole) {
+    public static List<TokenRole> getIncludeRole(TokenRole tokenRole) {
 
         List<TokenRole> tokenRoleList = new ArrayList<>();
 

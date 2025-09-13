@@ -9,5 +9,8 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public interface MemberRepository extends JpaRepository<Member, Long> {
 
-    Optional<Member> findMemberByMemberIdAndHasDeletedIsFalse(Long memberId);
+    boolean existsMemberByEmailAndWithdrawIsFalse(String email);
+
+    boolean existsMemberByEmail(String email);
+
 }

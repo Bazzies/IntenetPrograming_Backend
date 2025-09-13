@@ -1,6 +1,6 @@
-package com.example.internetprograming_backend.common.module.email.service;
+package com.example.internetprograming_backend.common.email.utils;
 
-import com.example.internetprograming_backend.common.module.email.dto.EmailMessage;
+import com.example.internetprograming_backend.common.email.EmailMessage;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
@@ -8,18 +8,20 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class EmailService {
+public class EmailUtils {
 
     private final JavaMailSender javaMailSender;
 
     @Value("${spring.mail.username}")
     private String fromMail;
 
+    @Async
     public void sendSimpleMessage(EmailMessage emailMessage) {
         MimeMessage message = javaMailSender.createMimeMessage();
         try {

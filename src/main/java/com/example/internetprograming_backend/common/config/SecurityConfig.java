@@ -42,6 +42,7 @@ public class SecurityConfig {
                     .addFilter(corsFilter())
                     .authorizeHttpRequests(auth -> auth
                             .requestMatchers("/swagger-ui/**").permitAll()
+                            .requestMatchers("/auth/**").permitAll()
                     )
                     .sessionManagement(session -> session
                             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)

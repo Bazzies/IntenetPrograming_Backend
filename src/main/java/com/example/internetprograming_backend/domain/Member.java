@@ -1,5 +1,6 @@
 package com.example.internetprograming_backend.domain;
 
+import com.example.internetprograming_backend.common.type.TokenRole;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -10,10 +11,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.*;
 
 @Entity
 @Builder
@@ -35,26 +33,28 @@ public class Member implements UserDetails {
     private String email;
 
     @NotBlank
-    private String account;
-
-    @NotBlank
     private String password;
 
     @Builder.Default
-    private boolean hasDeleted = false;
+    private boolean withdraw = false;
 
     @Builder.Default
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    private List<MemberRole> memberRoleList = new ArrayList<>();
+    private Set<MemberRole> memberRoleSet = new HashSet<>();
 
-    public void deleteMember() {
-        this.hasDeleted = true;
+    public void withdrawMember() {
+        this.withdraw = true;
+    }
+
+    public Member addTokenRoleSet(Set<MemberRole> memberRoleSet) {
+        this.memberRoleSet.addAll(memberRoleSet);
+        return this;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<GrantedAuthority> grantedAuthorities = new ArrayList<>();
-        for (MemberRole memberRole : memberRoleList) {
+        for (MemberRole memberRole : memberRoleSet) {
             grantedAuthorities.add(new SimpleGrantedAuthority(memberRole.getTokenRole().getTokenRole()));
         }
         return grantedAuthorities;

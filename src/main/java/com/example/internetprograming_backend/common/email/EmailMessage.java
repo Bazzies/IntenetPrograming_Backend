@@ -1,4 +1,4 @@
-package com.example.internetprograming_backend.common.module.email.dto;
+package com.example.internetprograming_backend.common.email;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
