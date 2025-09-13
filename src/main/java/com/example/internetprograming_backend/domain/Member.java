@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -14,14 +15,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.*;
 
 @Entity
-@Builder
+@Builder @Getter
 @Table(name = "member")
 @NoArgsConstructor
 @AllArgsConstructor
 public class Member implements UserDetails {
 
     @Id
-    @Column(name = "memberId")
+    @Column(name = "member_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberId;
 
@@ -37,6 +38,9 @@ public class Member implements UserDetails {
 
     @Builder.Default
     private boolean withdraw = false;
+
+    @Builder.Default
+    private boolean hasPrivacyConsent = false;
 
     @Builder.Default
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)

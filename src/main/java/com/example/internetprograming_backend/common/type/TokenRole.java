@@ -1,10 +1,12 @@
 package com.example.internetprograming_backend.common.type;
 
+import com.example.internetprograming_backend.domain.MemberRole;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @AllArgsConstructor
@@ -28,5 +30,13 @@ public enum TokenRole {
         }
 
         return tokenRoleList;
+    }
+
+    public static String highestRole(Set<MemberRole> memberRoleSet) {
+        return memberRoleSet.stream()
+                .map(MemberRole::getTokenRole)
+                .max(Enum::compareTo)
+                .map(TokenRole::getTokenRoleName)
+                .orElse(TokenRole.MEMBER.getTokenRoleName());
     }
 }

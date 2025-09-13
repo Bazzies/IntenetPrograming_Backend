@@ -2,6 +2,8 @@ package com.example.internetprograming_backend.controller;
 
 import com.example.internetprograming_backend.common.Path.AuthEndPoint;
 import com.example.internetprograming_backend.common.exception.CustomExceptionResponse;
+import com.example.internetprograming_backend.data.dto.jwt.JwtToken;
+import com.example.internetprograming_backend.data.form.SignInForm;
 import com.example.internetprograming_backend.data.form.SignUpForm;
 import com.example.internetprograming_backend.service.AuthService;
 import lombok.RequiredArgsConstructor;
@@ -41,6 +43,17 @@ public class AuthController {
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(CustomExceptionResponse.CHECK_EMAIL_VERIFICATION.getMessage());
+    }
+
+    @PostMapping(AuthEndPoint.SIGN_IN_PATH)
+    public ResponseEntity<?> signIn(SignInForm signInForm) {
+
+        JwtToken jwtToken = authService.signIn(signInForm);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .header("Authorization","Bearer " + jwtToken.getAccessToken())
+                .header("Refresh-Token","Bearer " + jwtToken.getRefreshToken())
+                .body(CustomExceptionResponse.SUCCESS.getMessage());
     }
 
 }

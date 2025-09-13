@@ -1,5 +1,8 @@
 package com.example.internetprograming_backend.common.jwt;
 
+import com.example.internetprograming_backend.common.exception.CustomException;
+import com.example.internetprograming_backend.common.exception.CustomExceptionResponse;
+import com.example.internetprograming_backend.data.dto.jwt.CustomMemberPrincipal;
 import com.example.internetprograming_backend.domain.Member;
 import com.example.internetprograming_backend.domain.MemberRole;
 import com.example.internetprograming_backend.repository.MemberRepository;
@@ -12,6 +15,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
@@ -91,7 +95,7 @@ public class JwtTokenProvider {
             Jwts.parser()
                     .verifyWith(secretKey)
                     .build()
-                    .parseSignedClaims(resolveToken(token));
+                    .parseSignedClaims(token);
             return true;
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
             log.info("Invalid JWT Token", e);
@@ -114,8 +118,15 @@ public class JwtTokenProvider {
                 .collect(Collectors.toSet());
 
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
-        return new UsernamePasswordAuthenticationToken(member, "", authorities);
+                .orElseThrow(() -> new CustomException(CustomExceptionResponse.NOT_FOUND_MEMBER));
+
+        CustomMemberPrincipal customMemberPrincipal = CustomMemberPrincipal.builder()
+                .memberId(member.getMemberId())
+                .name(member.getName())
+                .email(member.getEmail())
+                .build();
+
+        return new UsernamePasswordAuthenticationToken(customMemberPrincipal, "", authorities);
     }
 
     public String resolveToken(String token) {

@@ -4,8 +4,11 @@ import com.example.internetprograming_backend.common.email.EmailMessage;
 import com.example.internetprograming_backend.common.email.utils.EmailUtils;
 import com.example.internetprograming_backend.common.exception.CustomException;
 import com.example.internetprograming_backend.common.exception.CustomExceptionResponse;
+import com.example.internetprograming_backend.common.jwt.JwtTokenProvider;
 import com.example.internetprograming_backend.common.type.EmailCheckType;
 import com.example.internetprograming_backend.common.type.TokenRole;
+import com.example.internetprograming_backend.data.dto.jwt.JwtToken;
+import com.example.internetprograming_backend.data.form.SignInForm;
 import com.example.internetprograming_backend.data.form.SignUpForm;
 import com.example.internetprograming_backend.domain.EmailCheck;
 import com.example.internetprograming_backend.domain.Member;
@@ -34,6 +37,7 @@ public class AuthService {
 
     private final EmailUtils emailUtils;
     private final PasswordEncoder passwordEncoder;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @Value("${server.ip}")
     private String SERVER_IP;
@@ -108,4 +112,21 @@ public class AuthService {
 
         emailCheckRepository.save(emailCheck);
     }
+
+    @Transactional
+    public JwtToken signIn(SignInForm signInForm) {
+        Member member = memberRepository.findMemberByEmailAndWithdrawIsFalse(signInForm.getEmail())
+                .orElseThrow(() -> new CustomException(CustomExceptionResponse.NOT_FOUND_MEMBER));
+
+        if (!passwordEncoder.matches(signInForm.getPassword(), member.getPassword())) {
+            throw new CustomException(CustomExceptionResponse.NOT_MATCH_PASSWORD);
+        }
+
+        return JwtToken.builder()
+                .accessToken(jwtTokenProvider.createAccessToken(member.getMemberId(), member.getMemberRoleSet()))
+                .refreshToken(jwtTokenProvider.createRefreshToken(member.getMemberId(), member.getMemberRoleSet()))
+                .build();
+    }
+
+
 }

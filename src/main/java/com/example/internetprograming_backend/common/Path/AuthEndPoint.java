@@ -1,6 +1,7 @@
 package com.example.internetprograming_backend.common.Path;
 
 import lombok.NoArgsConstructor;
+import org.hibernate.result.UpdateCountOutput;
 
 @NoArgsConstructor
 public class AuthEndPoint {
@@ -10,6 +11,7 @@ public class AuthEndPoint {
 
     // URI
     public static final String SIGNUP_PATH = "/sign-up";
+    public static final String SIGN_IN_PATH = "/sign-in";
     public static final String SEND_SIGNUP_EMAIL_PATH = "/sign-up/email";
     public static final String CHECK_SIGNUP_EMAIL_PATH = "/sign-up/email/check/{authCode}";
 }

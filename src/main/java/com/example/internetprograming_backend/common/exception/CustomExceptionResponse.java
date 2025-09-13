@@ -15,6 +15,8 @@ public enum CustomExceptionResponse {
 
     // 400 error - member
     MEMBER_ALREADY_REGISTERED(HttpStatus.BAD_REQUEST, "이미 등록된 회원입니다."),
+    NOT_FOUND_MEMBER(HttpStatus.BAD_REQUEST, "회원이 존재하지 않습니다."),
+    NOT_MATCH_PASSWORD(HttpStatus.BAD_REQUEST, "비밀번호가 일치하지 않습니다."),
 
     // 400 error - email
     EMAIL_ALREADY_USED(HttpStatus.BAD_REQUEST, "이미 사용중인 이메일 입니다."),

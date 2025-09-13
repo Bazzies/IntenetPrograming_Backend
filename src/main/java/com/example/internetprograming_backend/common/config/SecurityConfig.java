@@ -1,5 +1,7 @@
 package com.example.internetprograming_backend.common.config;
 
+import com.example.internetprograming_backend.common.jwt.JwtAuthorizationFilter;
+import com.example.internetprograming_backend.common.type.TokenRole;
 import jakarta.servlet.http.HttpFilter;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +16,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
@@ -25,6 +28,8 @@ import java.util.List;
 @Configuration
 @RequiredArgsConstructor
 public class SecurityConfig {
+
+    private final JwtAuthorizationFilter jwtAuthorizationFilter;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -40,9 +45,11 @@ public class SecurityConfig {
                     .logout(AbstractHttpConfigurer::disable)
                     .httpBasic(AbstractHttpConfigurer::disable)
                     .addFilter(corsFilter())
+                    .addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
                     .authorizeHttpRequests(auth -> auth
                             .requestMatchers("/swagger-ui/**").permitAll()
                             .requestMatchers("/auth/**").permitAll()
+                            .requestMatchers("/member/**").hasAnyRole(TokenRole.MEMBER.name())
                     )
                     .sessionManagement(session -> session
                             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -66,7 +73,7 @@ public class SecurityConfig {
         corsConfiguration.addExposedHeader(HttpHeaders.SET_COOKIE);
         corsConfiguration.addExposedHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS);
         corsConfiguration.addExposedHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN);
-        corsConfiguration.addExposedHeader("RefreshToken");
+        corsConfiguration.addExposedHeader("Refresh-Token");
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", corsConfiguration);
