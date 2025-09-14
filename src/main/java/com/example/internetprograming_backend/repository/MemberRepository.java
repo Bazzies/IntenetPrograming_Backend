@@ -11,8 +11,6 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     boolean existsMemberByEmailAndWithdrawIsFalse(String email);
 
-    boolean existsMemberByEmail(String email);
-
     Optional<Member> findMemberByEmailAndWithdrawIsFalse(String email);
 
 }

@@ -1,6 +1,7 @@
 package com.example.internetprograming_backend.domain;
 
 import com.example.internetprograming_backend.common.type.TokenRole;
+import com.example.internetprograming_backend.data.dto.UpdateMyProfile;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -52,6 +53,14 @@ public class Member implements UserDetails {
 
     public Member addTokenRoleSet(Set<MemberRole> memberRoleSet) {
         this.memberRoleSet.addAll(memberRoleSet);
+        return this;
+    }
+
+    public Member updateInfo(UpdateMyProfile updateMyProfile) {
+        this.name = updateMyProfile.getName();
+        this.email = updateMyProfile.getEmail();
+        this.hasPrivacyConsent = updateMyProfile.isHasPrivacyConsent();
+
         return this;
     }
 

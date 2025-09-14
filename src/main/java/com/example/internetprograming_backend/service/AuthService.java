@@ -44,14 +44,19 @@ public class AuthService {
 
     @Transactional
     public void signUp(SignUpForm signUpForm) {
-        if (memberRepository.existsMemberByEmail(signUpForm.getEmail())) {
+        if (memberRepository.existsMemberByEmailAndWithdrawIsFalse(signUpForm.getEmail())) {
             throw new CustomException(CustomExceptionResponse.EMAIL_ALREADY_USED);
         }
 
         EmailCheck emailCheck = emailCheckRepository.findTopByEmailAndEmailCheckTypeAndHasCheckIsTrueOrderByStartDateTimeDesc(signUpForm.getEmail(), EmailCheckType.SIGNUP)
-                .orElseThrow(() -> new CustomException(CustomExceptionResponse.NOT_FOUND_EMAIL_VERIFICATION));
+                .orElseThrow(() -> new CustomException(CustomExceptionResponse.EMAIL_VERIFICATION_REQUIRED));
+
         if (!emailCheck.isHasCheck()) {
-            throw new CustomException(CustomExceptionResponse.INVALID_EMAIL_VERIFICATION);
+            throw new CustomException(CustomExceptionResponse.EMAIL_VERIFICATION_REQUIRED);
+        } else {
+            if (emailCheck.getActiveDateTime().isBefore(LocalDateTime.now())) {
+                throw new CustomException(CustomExceptionResponse.SIGNUP_TIME_EXPIRED);
+            }
         }
 
         Member member = Member.builder()
@@ -102,7 +107,7 @@ public class AuthService {
     @Transactional
     public void checkSignUpEmail(String authCode) {
         EmailCheck emailCheck = emailCheckRepository.findTopByAuthCodeAndEmailCheckTypeOrderByStartDateTimeDesc(authCode, EmailCheckType.SIGNUP)
-                .orElseThrow(() -> new CustomException(CustomExceptionResponse.NOT_FOUND_EMAIL_VERIFICATION));
+                .orElseThrow(() -> new CustomException(CustomExceptionResponse.EMAIL_VERIFICATION_REQUIRED));
         if (emailCheck.getExpiredDateTime().isBefore(LocalDateTime.now()))
             throw new CustomException(CustomExceptionResponse.EXPIRED_EMAIL_AUTH_CODE);
         else if (emailCheck.isHasCheck())
@@ -127,6 +132,4 @@ public class AuthService {
                 .refreshToken(jwtTokenProvider.createRefreshToken(member.getMemberId(), member.getMemberRoleSet()))
                 .build();
     }
-
-
 }

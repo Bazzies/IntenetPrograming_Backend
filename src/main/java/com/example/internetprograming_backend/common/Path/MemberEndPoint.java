@@ -10,4 +10,5 @@ public class MemberEndPoint {
 
     // URI
     public static final String MY_PROFILE_PATH = "/my-profile";
+    public static final String REQUEST_ROLE_CHANGE_PATH = "/request/role-change";
 }

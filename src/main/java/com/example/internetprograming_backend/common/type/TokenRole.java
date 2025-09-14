@@ -32,11 +32,10 @@ public enum TokenRole {
         return tokenRoleList;
     }
 
-    public static String highestRole(Set<MemberRole> memberRoleSet) {
+    public static TokenRole highestRole(Set<MemberRole> memberRoleSet) {
         return memberRoleSet.stream()
                 .map(MemberRole::getTokenRole)
                 .max(Enum::compareTo)
-                .map(TokenRole::getTokenRoleName)
-                .orElse(TokenRole.MEMBER.getTokenRoleName());
+                .orElse(TokenRole.MEMBER);
     }
 }

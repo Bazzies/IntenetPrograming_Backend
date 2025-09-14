@@ -30,11 +30,14 @@ public class EmailCheck {
 
     private LocalDateTime expiredDateTime;
 
+    private LocalDateTime activeDateTime;
+
     @Builder.Default
     private boolean hasCheck = false;
 
     public void check() {
         this.hasCheck = true;
+        this.activeDateTime = LocalDateTime.now().plusMinutes(30);
     }
 
 }
