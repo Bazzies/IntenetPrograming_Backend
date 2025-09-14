@@ -1,8 +1,9 @@
 package com.example.internetprograming_backend.controller;
 
-import com.example.internetprograming_backend.common.Path.MemberEndPoint;
+import com.example.internetprograming_backend.common.path.MemberEndPoint;
 import com.example.internetprograming_backend.common.exception.CustomExceptionResponse;
 import com.example.internetprograming_backend.common.type.TokenRole;
+import com.example.internetprograming_backend.data.dto.UpdateMyProfile;
 import com.example.internetprograming_backend.data.dto.jwt.CustomMemberPrincipal;
 import com.example.internetprograming_backend.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,15 @@ public class MemberController {
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(memberService.getMyProfile(customMemberPrincipal));
+    }
+
+    @PostMapping(MemberEndPoint.UPDATE_MY_PROFILE_PATH)
+    public ResponseEntity<?> updateMyProfile(@AuthenticationPrincipal CustomMemberPrincipal customMemberPrincipal, @RequestBody UpdateMyProfile updateMyProfile) {
+
+        memberService.updateMyProfile(customMemberPrincipal, updateMyProfile);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(CustomExceptionResponse.SUCCESS.getMessage());
     }
 
     @GetMapping(MemberEndPoint.REQUEST_ROLE_CHANGE_PATH)

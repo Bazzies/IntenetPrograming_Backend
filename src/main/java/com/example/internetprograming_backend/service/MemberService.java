@@ -44,8 +44,7 @@ public class MemberService {
         Member member = memberRepository.findById(customMemberPrincipal.getMemberId())
                 .orElseThrow(() -> new CustomException(CustomExceptionResponse.NOT_FOUND_MEMBER));
 
-        member.updateInfo(updateMyProfile);
-        memberRepository.save(member);
+        memberRepository.save(member.updateInfo(updateMyProfile));
     }
 
     @Transactional

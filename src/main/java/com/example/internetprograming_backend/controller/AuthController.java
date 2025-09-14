@@ -1,6 +1,6 @@
 package com.example.internetprograming_backend.controller;
 
-import com.example.internetprograming_backend.common.Path.AuthEndPoint;
+import com.example.internetprograming_backend.common.path.AuthEndPoint;
 import com.example.internetprograming_backend.common.exception.CustomExceptionResponse;
 import com.example.internetprograming_backend.data.dto.jwt.JwtToken;
 import com.example.internetprograming_backend.data.form.SignInForm;

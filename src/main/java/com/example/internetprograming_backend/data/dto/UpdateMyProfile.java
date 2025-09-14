@@ -12,8 +12,4 @@ public class UpdateMyProfile {
 
     private String name;
 
-    private String email;
-
-    private boolean hasPrivacyConsent;
-
 }

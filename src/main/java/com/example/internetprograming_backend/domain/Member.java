@@ -58,9 +58,6 @@ public class Member implements UserDetails {
 
     public Member updateInfo(UpdateMyProfile updateMyProfile) {
         this.name = updateMyProfile.getName();
-        this.email = updateMyProfile.getEmail();
-        this.hasPrivacyConsent = updateMyProfile.isHasPrivacyConsent();
-
         return this;
     }
 

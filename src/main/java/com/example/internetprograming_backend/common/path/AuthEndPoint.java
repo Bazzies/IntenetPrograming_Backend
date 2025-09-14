@@ -1,7 +1,6 @@
-package com.example.internetprograming_backend.common.Path;
+package com.example.internetprograming_backend.common.path;
 
 import lombok.NoArgsConstructor;
-import org.hibernate.result.UpdateCountOutput;
 
 @NoArgsConstructor
 public class AuthEndPoint {
