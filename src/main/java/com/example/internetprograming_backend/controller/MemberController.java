@@ -5,6 +5,7 @@ import com.example.internetprograming_backend.common.exception.CustomExceptionRe
 import com.example.internetprograming_backend.common.type.TokenRole;
 import com.example.internetprograming_backend.data.dto.UpdateMyProfile;
 import com.example.internetprograming_backend.data.dto.jwt.CustomMemberPrincipal;
+import com.example.internetprograming_backend.data.dto.jwt.RoleChangeRequestForm;
 import com.example.internetprograming_backend.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -35,10 +36,10 @@ public class MemberController {
                 .body(CustomExceptionResponse.SUCCESS.getMessage());
     }
 
-    @GetMapping(MemberEndPoint.REQUEST_ROLE_CHANGE_PATH)
-    public ResponseEntity<?> requestRoleChange(@AuthenticationPrincipal CustomMemberPrincipal customMemberPrincipal, @RequestParam TokenRole role) {
+    @PostMapping(MemberEndPoint.REQUEST_ROLE_CHANGE_PATH)
+    public ResponseEntity<?> requestRoleChange( @AuthenticationPrincipal CustomMemberPrincipal customMemberPrincipal, @RequestBody RoleChangeRequestForm roleChangeRequestForm) {
 
-        memberService.requestRoleChange(customMemberPrincipal, role);
+        memberService.requestRoleChange(customMemberPrincipal, roleChangeRequestForm);
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(CustomExceptionResponse.ROLE_CHANGE_REQUEST_COMPLETE.getMessage());

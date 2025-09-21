@@ -1,6 +1,5 @@
 package com.example.internetprograming_backend.domain;
 
-import com.example.internetprograming_backend.common.type.TokenRole;
 import com.example.internetprograming_backend.data.dto.UpdateMyProfile;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -38,6 +37,9 @@ public class Member implements UserDetails {
     private String password;
 
     @Builder.Default
+    private boolean hasEnabled = true;
+
+    @Builder.Default
     private boolean withdraw = false;
 
     @Builder.Default
@@ -46,6 +48,10 @@ public class Member implements UserDetails {
     @Builder.Default
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private Set<MemberRole> memberRoleSet = new HashSet<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<ApprovalRequest> approvalRequestList = new ArrayList<>();
 
     public void withdrawMember() {
         this.withdraw = true;
