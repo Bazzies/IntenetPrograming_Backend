@@ -2,7 +2,6 @@ package com.example.internetprograming_backend.controller;
 
 import com.example.internetprograming_backend.common.path.MemberEndPoint;
 import com.example.internetprograming_backend.common.exception.CustomExceptionResponse;
-import com.example.internetprograming_backend.common.type.TokenRole;
 import com.example.internetprograming_backend.data.dto.UpdateMyProfile;
 import com.example.internetprograming_backend.data.dto.jwt.CustomMemberPrincipal;
 import com.example.internetprograming_backend.data.dto.jwt.RoleChangeRequestForm;
@@ -20,25 +19,30 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    @GetMapping(MemberEndPoint.MY_PROFILE_PATH)
-    public ResponseEntity<?> getMyProfile(@AuthenticationPrincipal CustomMemberPrincipal customMemberPrincipal) {
-
+    @GetMapping(MemberEndPoint.MEMBER_MY_PROFILE_PATH)
+    public ResponseEntity<?> getMyProfile(
+            @AuthenticationPrincipal CustomMemberPrincipal customMemberPrincipal
+    ) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(memberService.getMyProfile(customMemberPrincipal));
     }
 
-    @PostMapping(MemberEndPoint.UPDATE_MY_PROFILE_PATH)
-    public ResponseEntity<?> updateMyProfile(@AuthenticationPrincipal CustomMemberPrincipal customMemberPrincipal, @RequestBody UpdateMyProfile updateMyProfile) {
-
+    @PostMapping(MemberEndPoint.MEMBER_UPDATE_MY_PROFILE_PATH)
+    public ResponseEntity<?> updateMyProfile(
+            @AuthenticationPrincipal CustomMemberPrincipal customMemberPrincipal,
+            @RequestBody UpdateMyProfile updateMyProfile
+    ) {
         memberService.updateMyProfile(customMemberPrincipal, updateMyProfile);
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(CustomExceptionResponse.SUCCESS.getMessage());
     }
 
-    @PostMapping(MemberEndPoint.REQUEST_ROLE_CHANGE_PATH)
-    public ResponseEntity<?> requestRoleChange( @AuthenticationPrincipal CustomMemberPrincipal customMemberPrincipal, @RequestBody RoleChangeRequestForm roleChangeRequestForm) {
-
+    @PostMapping(MemberEndPoint.MEMBER_REQUEST_ROLE_CHANGE_PATH)
+    public ResponseEntity<?> requestRoleChange(
+            @AuthenticationPrincipal CustomMemberPrincipal customMemberPrincipal,
+            @RequestBody RoleChangeRequestForm roleChangeRequestForm
+    ) {
         memberService.requestRoleChange(customMemberPrincipal, roleChangeRequestForm);
 
         return ResponseEntity.status(HttpStatus.OK)

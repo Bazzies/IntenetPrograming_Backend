@@ -1,6 +1,9 @@
 package com.example.internetprograming_backend.common.config;
 
 import com.example.internetprograming_backend.common.jwt.JwtAuthorizationFilter;
+import com.example.internetprograming_backend.common.path.AdminEndPoint;
+import com.example.internetprograming_backend.common.path.AuthEndPoint;
+import com.example.internetprograming_backend.common.path.MemberEndPoint;
 import com.example.internetprograming_backend.common.type.TokenRole;
 import jakarta.servlet.http.HttpFilter;
 import jakarta.servlet.http.HttpSession;
@@ -48,8 +51,9 @@ public class SecurityConfig {
                     .addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
                     .authorizeHttpRequests(auth -> auth
                             .requestMatchers("/swagger-ui/**").permitAll()
-                            .requestMatchers("/auth/**").permitAll()
-                            .requestMatchers("/member/**").hasAnyRole(TokenRole.MEMBER.name())
+                            .requestMatchers(AuthEndPoint.AUTH_SECURITY_WILDCARD).permitAll()
+                            .requestMatchers(MemberEndPoint.MEMBER_SECURITY_WILDCARD).hasAnyRole(TokenRole.MEMBER.name())
+                            .requestMatchers(AdminEndPoint.ADMIN_SECURITY_WILDCARD).hasAnyRole(TokenRole.ADMIN.name())
                     )
                     .sessionManagement(session -> session
                             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)

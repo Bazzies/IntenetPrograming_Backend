@@ -18,7 +18,7 @@ public class AuthController {
 
     private final AuthService authService;
 
-    @PostMapping(AuthEndPoint.SIGNUP_PATH)
+    @PostMapping(AuthEndPoint.AUTH_SIGNUP_PATH)
     public ResponseEntity<?> SignUp(SignUpForm signUpForm) {
 
         authService.signUp(signUpForm);
@@ -27,7 +27,7 @@ public class AuthController {
                 .body(CustomExceptionResponse.SUCCESS.getMessage());
     }
 
-    @GetMapping(AuthEndPoint.SEND_SIGNUP_EMAIL_PATH)
+    @GetMapping(AuthEndPoint.AUTH_SEND_SIGNUP_EMAIL_PATH)
     public ResponseEntity<?> sendSignUpEmail(String email) {
 
         authService.sendSignUpEmail(email);
@@ -36,7 +36,7 @@ public class AuthController {
                 .body(CustomExceptionResponse.SEND_EMAIL_COMPLETE.getMessage());
     }
 
-    @GetMapping(AuthEndPoint.CHECK_SIGNUP_EMAIL_PATH)
+    @GetMapping(AuthEndPoint.AUTH_CHECK_SIGNUP_EMAIL_PATH)
     public ResponseEntity<?> checkSignUpEmail(@PathVariable String authCode) {
 
         authService.checkSignUpEmail(authCode);
@@ -45,7 +45,7 @@ public class AuthController {
                 .body(CustomExceptionResponse.CHECK_EMAIL_VERIFICATION.getMessage());
     }
 
-    @PostMapping(AuthEndPoint.SIGN_IN_PATH)
+    @PostMapping(AuthEndPoint.AUTH_SIGN_IN_PATH)
     public ResponseEntity<?> signIn(SignInForm signInForm) {
 
         JwtToken jwtToken = authService.signIn(signInForm);
