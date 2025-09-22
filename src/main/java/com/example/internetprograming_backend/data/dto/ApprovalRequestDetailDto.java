@@ -12,13 +12,17 @@ import java.time.LocalDateTime;
 @Builder @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ApprovalRequestDto {
+public class ApprovalRequestDetailDto {
 
     private Long approvalRequestId;
 
     private ApprovalRequestType approvalRequestType;
 
     private ApprovalStatus approvalStatus;
+
+    private String previousValue;
+
+    private String requestedValue;
 
     private LocalDateTime requestTime;
 

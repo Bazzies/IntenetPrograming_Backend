@@ -10,4 +10,6 @@ public class AdminEndPoint implements EndPoint {
 
     // URI
     public static final String ADMIN_APPROVAL_REQUEST_LIST_PATH = "/approval/request-list";
+    public static final String ADMIN_APPROVAL_REQUEST_DETAIL_PATH = "/approval/request-detail/{approvalRequestId}";
+    public static final String ADMIN_APPROVED_REQUEST_PATH = "/approval/approve/{approvalRequestId}";
 }

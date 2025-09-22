@@ -7,6 +7,8 @@ import lombok.Setter;
 @Getter @Setter
 public class RoleChangeRequestForm {
 
+    private boolean  hasUrgency;
+
     private TokenRole requestRole;
 
 }

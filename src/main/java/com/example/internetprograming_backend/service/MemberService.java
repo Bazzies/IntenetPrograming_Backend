@@ -86,8 +86,8 @@ public class MemberService {
 
         ApprovalRequest approvalRequest = ApprovalRequest.builder()
                 .approvalRequestType(ApprovalRequestType.PERMISSION_CHANGE)
-                .previousValue(TokenRole.highestRole(member.getMemberRoleSet()).getTokenRoleName())
-                .requestedValue(roleChangeRequestForm.getRequestRole().getTokenRoleName())
+                .previousValue(TokenRole.highestRole(member.getMemberRoleSet()).name())
+                .requestedValue(roleChangeRequestForm.getRequestRole().name())
                 .approvalStatus(ApprovalStatus.PENDING)
                 .requestTime(LocalDateTime.now())
                 .member(member)

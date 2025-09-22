@@ -32,6 +32,11 @@ public enum TokenRole {
         return tokenRoleList;
     }
 
+    public static List<TokenRole> getIncludeRole(String name) {
+        TokenRole baseTokenRole = TokenRole.valueOf(name);
+        return getIncludeRole(baseTokenRole);
+    }
+
     public static TokenRole highestRole(Set<MemberRole> memberRoleSet) {
         return memberRoleSet.stream()
                 .map(MemberRole::getTokenRole)

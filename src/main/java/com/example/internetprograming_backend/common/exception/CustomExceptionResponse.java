@@ -14,8 +14,10 @@ public enum CustomExceptionResponse {
     CHECK_EMAIL_VERIFICATION(HttpStatus.OK, "이메일 인증이 완료되었습니다."),
     ROLE_CHANGE_REQUEST_COMPLETE(HttpStatus.OK, "이메일 전송이 완료되었습니다. 관리자의 승인을 기다려주세요."),
 
-
     // 400 error - member
+    NOT_FOUND_APPROVAL_REQUEST(HttpStatus.BAD_REQUEST, "승인 요청이 존재하지 않습니다."),
+    INVALID_APPROVAL_REQUEST_TYPE(HttpStatus.BAD_REQUEST, "유효하지 않은 승인 요청 타입입니다."),
+
     MEMBER_ALREADY_REGISTERED(HttpStatus.BAD_REQUEST, "이미 등록된 회원입니다."),
     NOT_FOUND_MEMBER(HttpStatus.BAD_REQUEST, "회원이 존재하지 않습니다."),
     NOT_MATCH_PASSWORD(HttpStatus.BAD_REQUEST, "비밀번호가 일치하지 않습니다."),

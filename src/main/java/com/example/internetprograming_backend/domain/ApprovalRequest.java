@@ -33,10 +33,17 @@ public class ApprovalRequest {
 
     private LocalDateTime completedTime; // 요청이 최종 완료된 시간
 
+    @Builder.Default
+    private boolean hasUrgency = false;
+
     @ManyToOne
     @JoinColumn(name = "member_id")
     private Member member;
 
     @OneToOne(mappedBy = "approvalRequest")
     private RejectionReason rejectionReason;
+
+    public void completeApprovalRequest() {
+        this.completedTime = LocalDateTime.now();
+    }
 }
